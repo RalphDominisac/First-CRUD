@@ -11,6 +11,8 @@
 
 A simple, clean, fully‑documented CRUD API for managing tasks, built with Node.js, Express, and Swagger UI. This project demonstrates the fundamentals of REST API design, validation, routing, and interactive documentation using OpenAPI.
 
+---
+
 ## Table of Contents
 
 - [Features](#features)
@@ -24,6 +26,8 @@ A simple, clean, fully‑documented CRUD API for managing tasks, built with Node
 - [OpenAPI Specification](#openapi-specification)
 - [Roadmap](#roadmap)
 - [Author](#author)
+
+---
 
 ## Features
 
@@ -41,6 +45,8 @@ A simple, clean, fully‑documented CRUD API for managing tasks, built with Node
 
 - Beginner‑friendly but production‑style code layout
 
+---
+
 ## Project Structure
 
     ├── app.js
@@ -50,6 +56,8 @@ A simple, clean, fully‑documented CRUD API for managing tasks, built with Node
     ├── package.json
 
     └── README.md
+
+---
 
 ## Tech Stack
 
@@ -61,6 +69,8 @@ A simple, clean, fully‑documented CRUD API for managing tasks, built with Node
 
 - OpenAPI 3.0 — API specification format
 
+---
+
 ## Installation
 
 ```bash
@@ -68,6 +78,8 @@ git clone <your-repo-url>
 cd task-api
 npm install
 ```
+
+---
 
 ## Running the Server
 
@@ -86,6 +98,8 @@ http://localhost:3000
 ```bash
 http://localhost:3000/docs
 ```
+
+---
 
 ## API Endpoints
 
@@ -145,6 +159,20 @@ curl -X POST http://localhost:3000/tasks \
   -d '{"title": "Buy milk"}'
 ```
 
+**Read all tasks**
+
+```bash
+curl -X GET http://localhost:3000/tasks \
+  -H "accept: */*"
+```
+
+**Read a task by ID**
+
+```bash
+curl -X GET http://localhost:3000/tasks/4 \
+  -H "accept: */*"
+```
+
 **Update a task**
 
 ```bash
@@ -158,6 +186,8 @@ curl -X PUT http://localhost:3000/tasks/4 \
 ```bash
 curl -X DELETE http://localhost:3000/tasks/4
 ```
+
+---
 
 ## OpenAPI Specification
 
@@ -272,6 +302,8 @@ The openapi.json file describes all endpoints, parameters, request bodies, and r
 
 ```
 
+---
+
 ## Roadmap
 
 - Add database persistence (SQLite, PostgreSQL, or MongoDB)
@@ -283,6 +315,8 @@ The openapi.json file describes all endpoints, parameters, request bodies, and r
 - Add automated tests (Jest + Supertest)
 
 - Add Docker support
+
+---
 
 ## Author
 
