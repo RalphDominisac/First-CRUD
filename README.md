@@ -4,9 +4,6 @@
 ![Express](https://img.shields.io/badge/Framework-Express.js-lightgrey?style=for-the-badge&logo=express)
 ![Swagger](https://img.shields.io/badge/Docs-Swagger%20UI-brightgreen?style=for-the-badge&logo=swagger)
 ![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0-blue?style=for-the-badge&logo=openapiinitiative)
-![Cloud](https://img.shields.io/badge/Cloud-Google%20Cloud-blue?style=for-the-badge&logo=googlecloud)
-![Deployment](https://img.shields.io/badge/Deploy-Cloud%20Run-4285F4?style=for-the-badge&logo=googlecloud)
-![Database](https://img.shields.io/badge/Database-Cloud%20SQL-lightblue?style=for-the-badge&logo=mysql)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
 
 A simple, clean, fully‑documented CRUD API for managing tasks, built with Node.js, Express, and Swagger UI. This project demonstrates the fundamentals of REST API design, validation, routing, and interactive documentation using OpenAPI.
