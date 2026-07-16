@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+// Enables JSON body parsing
+app.use(express.json());
+
 // In-memory task list
 const tasks = [
   { id: 1, title: "Learn Express", done: false },
@@ -38,6 +41,32 @@ app.get("/tasks/:id", (req, res) => {
   }
 
   res.json(task);
+});
+
+// POST /tasks - Create a new task
+app.post("/tasks", (req, res) => {
+  const { title } = req.body;
+
+  // Validation: Title must exist and not be empty
+  if (!title || title.trim() === "") {
+    return res.status(400).json({ error: "Title is required" });
+  }
+
+  // Generate next free ID
+  const nextId = tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1;
+
+  // Create new task
+  const newTask = {
+    id: nextId,
+    title: title.trim(),
+    done: false,
+  };
+
+  // Add to list
+  tasks.push(newTask);
+
+  // Return created task with status 201
+  res.status(201).json(newTask);
 });
 
 app.listen(port, () => {
