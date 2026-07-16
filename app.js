@@ -26,10 +26,14 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
+// -----------------------------------------------------------------------------------------------------
+
 // GET /tasks - Return all tasks
 app.get("/tasks", (req, res) => {
   res.json(tasks);
 });
+
+// -----------------------------------------------------------------------------------------------------
 
 // GET /tasks/:id - Return one task by ID
 app.get("/tasks/:id", (req, res) => {
@@ -43,6 +47,7 @@ app.get("/tasks/:id", (req, res) => {
   res.json(task);
 });
 
+// -----------------------------------------------------------------------------------------------------
 // POST /tasks - Create a new task
 app.post("/tasks", (req, res) => {
   const { title } = req.body;
@@ -67,6 +72,55 @@ app.post("/tasks", (req, res) => {
 
   // Return created task with status 201
   res.status(201).json(newTask);
+});
+
+// -----------------------------------------------------------------------------------------------------
+// PUT /tasks/:id - Update a task
+app.put("/tasks/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const task = tasks.find((t) => t.id === id);
+
+  if (!task) {
+    return res.status(404).json({ error: `Task ${id} not found` });
+  }
+
+  const { title, done } = req.body;
+
+  // Validate: at least one field must be provided
+  if (title === undefined && done === undefined) {
+    return res.status(400).json({ error: "Title or Done is required" });
+  }
+
+  // Validate title if provided
+  if (title !== undefined && title.trim() === "") {
+    return res.status(400).json({ error: "Title cannot be empty" });
+  }
+
+  // Validate done if provided
+  if (done !== undefined && typeof done !== "boolean") {
+    return res.status(400).json({ error: "Done must be true or false" });
+  }
+
+  //  Apply updates
+  if (title !== undefined) task.title = title.trim();
+  if (done !== undefined) task.done = done;
+
+  res.json(task);
+});
+
+// -----------------------------------------------------------------------------------------------------
+// DELETE /tasks/:id - Delete a task
+app.delete("/tasks/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const index = tasks.findIndex((t) => t.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ error: `Task ${id} not found` });
+  }
+
+  tasks.splice(index, 1);
+
+  res.status(204).send();
 });
 
 app.listen(port, () => {
