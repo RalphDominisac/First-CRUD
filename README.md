@@ -308,6 +308,8 @@ The openapi.json file describes all endpoints, parameters, request bodies, and r
 
 - Add database persistence (SQLite, PostgreSQL, or MongoDB)
 
+- Add pagination
+
 - Add validation middleware (Zod or Joi)
 
 - Add service + controller architecture
@@ -315,8 +317,6 @@ The openapi.json file describes all endpoints, parameters, request bodies, and r
 - Add automated tests (Jest + Supertest)
 
 - Add Docker support
-
----
 
 ## Author
 
