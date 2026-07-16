@@ -1,6 +1,6 @@
 # Task API — Express.js CRUD Service
 
-![Node.js](https://img.shields.io/badge/Node.js-18+-green?style=for-the-badge&logo=node.js)
+![Node.js](https://img.shields.io/badge/Node.js-20.9.0-green?style=for-the-badge&logo=node.js)
 ![Express](https://img.shields.io/badge/Framework-Express.js-lightgrey?style=for-the-badge&logo=express)
 ![Swagger](https://img.shields.io/badge/Docs-Swagger%20UI-brightgreen?style=for-the-badge&logo=swagger)
 ![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0-blue?style=for-the-badge&logo=openapiinitiative)
