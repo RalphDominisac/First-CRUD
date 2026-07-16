@@ -123,6 +123,13 @@ app.delete("/tasks/:id", (req, res) => {
   res.status(204).send();
 });
 
+// -----------------------------------------------------------------------------------------------------
+
+const swaggerUi = require("swagger-ui-express");
+const openapi = require("./openapi.json");
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(openapi));
+
 app.listen(port, () => {
   console.log(`Task API listening on port ${port}`);
 });
