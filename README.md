@@ -108,7 +108,7 @@ Returns a single task if found.
 
 Updates the title and/or done status.
 
-![PUT task screenshot 1](docs/images/put-task-id-1.png)
+![PUT task screenshot 1](docs/images/put-task-id.png)
 
 ![PUT task screenshot 2](docs/images/put-task-id-2.png)
 
@@ -119,6 +119,8 @@ Updates the title and/or done status.
 Deletes the task and returns 204 No Content.
 
 ![DELETE task screenshot](docs/images/delete-task-id.png)
+
+This confirms it deleted the specified task:
 
 ![GET task result after deleting](docs/images/get-after-deleting.png)
 
