@@ -12,7 +12,7 @@ This project demonstrates real‑world backend fundamentals: routing, validation
 
 ---
 
-## 📚 Table of Contents
+## Table of Contents
 
 - [Why SQLite?](#-why-sqlite)
 - [Where the Database Lives](#-where-the-database-lives)
@@ -31,7 +31,7 @@ This project demonstrates real‑world backend fundamentals: routing, validation
 
 ---
 
-## 📌 Why SQLite?
+## Why SQLite?
 
 SQLite was chosen because:
 
@@ -43,7 +43,7 @@ SQLite was chosen because:
 
 ---
 
-## 📁 Where the Database Lives
+## Where the Database Lives
 
 The database file is:
 
@@ -61,7 +61,7 @@ Most projects **git‑ignore** this file so every clone starts fresh:
 
 ---
 
-## ▶️ How to Start the Project
+## How to Start the Project
 
 ```bash
 node app.js
@@ -76,13 +76,13 @@ This command:
 
 ---
 
-## 🗄️ Screenshot of the Database
+## Screenshot of the Database
 
 ![SQLite DB Browser Screenshot](docs/images/sqlite-ss.png)
 
 ---
 
-## 🧪 Example SQL Query (Stage 4)
+## Example SQL Query (Stage 4)
 
 ```sql
 SELECT * FROM tasks WHERE done = 1;
@@ -93,7 +93,7 @@ It returned all tasks that were marked as completed.
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 ├── app.js
@@ -105,7 +105,7 @@ It returned all tasks that were marked as completed.
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
 - **Node.js** — JavaScript runtime
 - **Express.js** — Web framework
@@ -115,7 +115,7 @@ It returned all tasks that were marked as completed.
 
 ---
 
-## 🚀 Running the Server
+## Running the Server
 
 ```bash
 node app.js
@@ -135,7 +135,7 @@ http://localhost:3000/docs
 
 ---
 
-## 🔗 API Endpoints
+## API Endpoints
 
 ### **GET /tasks — List all tasks**
 
@@ -159,7 +159,7 @@ Deletes the task and returns `204 No Content`.
 
 ---
 
-## 💻 Example cURL Commands
+## Example cURL Commands
 
 ### **Create a task**
 
@@ -197,16 +197,16 @@ curl -X DELETE http://localhost:3000/tasks/4
 
 ---
 
-## 📘 OpenAPI Specification
+## OpenAPI Specification
 
 Your `openapi.json` describes all endpoints, parameters, request bodies, and responses.  
 Swagger UI uses this file to generate interactive documentation.
 
-![Swagger UI Screenshot](docs/images/swagger-ss.png)
+![Swagger UI Screenshot](docs/images/swager-ss.png)
 
 ---
 
-## 🧪 Stage 5 Checkpoint — Clean Clone Test
+## Stage 5 Checkpoint — Clean Clone Test
 
 A stranger should be able to:
 
@@ -234,7 +234,7 @@ No manual setup. No SQL required. No extra steps.
 
 ---
 
-## 🛣️ Roadmap
+## Roadmap
 
 - Add sorting, filtering, pagination
 - Add validation middleware (Zod or Joi)
@@ -245,7 +245,7 @@ No manual setup. No SQL required. No extra steps.
 
 ---
 
-## 👤 Author
+## Author
 
 **Ralph Henry L. Dominisac**  
 Task API — Express.js CRUD Project  
