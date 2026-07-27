@@ -11,7 +11,22 @@
         "summary": "List all tasks",
         "responses": {
           "200": {
-            "description": "Array of tasks"
+            "description": "Array of tasks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer" },
+                      "title": { "type": "string" },
+                      "done": { "type": "boolean" }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -32,7 +47,21 @@
           }
         },
         "responses": {
-          "201": { "description": "Task created" },
+          "201": {
+            "description": "Task created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer" },
+                    "title": { "type": "string" },
+                    "done": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          },
           "400": { "description": "Invalid input" }
         }
       }
@@ -49,7 +78,21 @@
           }
         ],
         "responses": {
-          "200": { "description": "Task found" },
+          "200": {
+            "description": "Task found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer" },
+                    "title": { "type": "string" },
+                    "done": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          },
           "404": { "description": "Task not found" }
         }
       },
@@ -78,7 +121,21 @@
           }
         },
         "responses": {
-          "200": { "description": "Task updated" },
+          "200": {
+            "description": "Task updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer" },
+                    "title": { "type": "string" },
+                    "done": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          },
           "400": { "description": "Invalid input" },
           "404": { "description": "Task not found" }
         }

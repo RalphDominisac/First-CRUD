@@ -22,6 +22,14 @@ app.use(express.json());
 const initDB = require("./db");
 let dbHandle = null; // <--- declare this so assignment won't throw
 
+function normalizeTask(task) {
+  return {
+    id: task.id,
+    title: task.title,
+    done: task.done === 1, // convert 0/1 → true/false
+  };
+}
+
 // Root endpoint - API metadata
 app.get("/", (req, res) => {
   res.json({
@@ -40,7 +48,7 @@ app.get("/health", (req, res) => {
 app.get("/tasks", async (req, res) => {
   try {
     const rows = await dbHandle.all("SELECT * FROM tasks");
-    res.json(rows);
+    res.json(rows.map(normalizeTask));
   } catch (err) {
     console.error("GET /tasks error:", err);
     res.status(500).json({ error: "Failed to fetch tasks" });
@@ -58,7 +66,7 @@ app.get("/tasks/:id", async (req, res) => {
       return res.status(404).json({ error: `Task ${id} not found` });
     }
 
-    res.json(task);
+    res.json(normalizeTask(task));
   } catch (err) {
     console.error("GET /tasks/:id error:", err);
     res.status(500).json({ error: "Failed to fetch task" });
@@ -85,7 +93,7 @@ app.post("/tasks", async (req, res) => {
       result.lastID,
     );
 
-    res.status(201).json(newTask);
+    res.status(201).json(normalizeTask(newTask));
   } catch (err) {
     console.error("POST /tasks error:", err);
     res.status(500).json({ error: "Failed to create task" });
@@ -128,7 +136,7 @@ app.put("/tasks/:id", async (req, res) => {
 
     const updated = await dbHandle.get("SELECT * FROM tasks WHERE id = ?", id);
 
-    res.json(updated);
+    res.json(normalizeTask(updated));
   } catch (err) {
     console.error("PUT /tasks/:id error:", err);
     res.status(500).json({ error: "Failed to update task" });
