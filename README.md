@@ -78,7 +78,7 @@ This command:
 
 ## 🗄️ Screenshot of the Database
 
-_(Insert your DB Browser screenshot here.)_
+![SQLite DB Browser Screenshot](docs/images/sqlite-ss.png)
 
 ---
 
@@ -202,7 +202,7 @@ curl -X DELETE http://localhost:3000/tasks/4
 Your `openapi.json` describes all endpoints, parameters, request bodies, and responses.  
 Swagger UI uses this file to generate interactive documentation.
 
-_(Insert your Swagger screenshot here.)_
+![Swagger UI Screenshot](docs/images/swagger-ss.png)
 
 ---
 
