@@ -13,17 +13,17 @@ A clean, fully‑documented CRUD API for managing tasks, built with Node.js, Exp
 
 ## Table of Contents
 
-- Overview
-- Features
-- Tech Stack
-- Project Structure
-- Environment Variables
-- Running the Project
-- API Endpoints
-- Example cURL Commands
-- Clean Clone Test
-- Roadmap
-- Author
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Environment Variables](#environment-variables)
+- [Running the Project](#running-the-project)
+- [API Endpoints](#api-endpoints)
+- [Example cURL Commands](#example-curl-commands)
+- [Clean Clone Test](#clean-clone-test)
+- [Roadmap](#roadmap)
+- [Author](#author)
 
 ---
 
@@ -47,7 +47,11 @@ docker compose up
 
 ## Tech Stack
 
-Node.js, Express.js, PostgreSQL, Docker Compose, OpenAPI 3.0
+-Node.js
+-Express.js
+-PostgreSQL
+-Docker Compose
+-OpenAPI 3.0
 
 ---
 
@@ -68,7 +72,9 @@ Node.js, Express.js, PostgreSQL, Docker Compose, OpenAPI 3.0
 
 ## Environment Variables
 
-- DATABASE_URL=postgres://postgres:dev@db:5432/tasks
+```bash
+DATABASE_URL=postgres://postgres:dev@db:5432/tasks
+```
 
 ---
 
@@ -85,11 +91,13 @@ docker compose up
 
 ## API Endpoints
 
-- GET /tasks
-- GET /tasks/:id
-- POST /tasks
-- PUT /tasks/:id
-- DELETE /tasks/:id
+```bash
+GET /tasks
+GET /tasks/:id
+POST /tasks
+PUT /tasks/:id
+DELETE /tasks/:id
+```
 
 ---
 
@@ -130,7 +138,11 @@ curl http://localhost:3000/tasks
 
 ## Roadmap
 
-Pagination, validation, services/controllers, tests, deployment
+-Pagination
+-Validation
+-Services/Controllers
+-Tests
+-Deployment
 
 ---
 
