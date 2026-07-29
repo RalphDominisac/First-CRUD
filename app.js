@@ -89,25 +89,18 @@ app.put("/tasks/:id", async (req, res) => {
   const id = Number(req.params.id);
   const { title, done } = req.body;
 
-  if (title === undefined && done === undefined) {
-    return res.status(400).json({ error: "Title or Done is required" });
-  }
-
-  if (title !== undefined && title.trim() === "") {
-    return res.status(400).json({ error: "Title cannot be empty" });
-  }
-
-  if (done !== undefined && typeof done !== "boolean") {
-    return res.status(400).json({ error: "Done must be true or false" });
-  }
-
   try {
-    const updated = await updateTask(id, title, done);
-
-    if (!updated) {
+    // Fetch existing task
+    const existing = await getTaskById(id);
+    if (!existing) {
       return res.status(404).json({ error: `Task ${id} not found` });
     }
 
+    // Use existing values if not provided
+    const newTitle = title !== undefined ? title.trim() : existing.title;
+    const newDone = done !== undefined ? done : existing.done;
+
+    const updated = await updateTask(id, newTitle, newDone);
     res.json(updated);
   } catch (err) {
     console.error("PUT /tasks/:id error:", err);

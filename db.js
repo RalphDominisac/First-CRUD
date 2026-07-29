@@ -64,7 +64,8 @@ async function updateTask(id, title, done) {
 }
 
 async function deleteTask(id) {
-  await pool.query(`DELETE FROM tasks WHERE id = $1;`, [id]);
+  const result = await pool.query(`DELETE FROM tasks WHERE id = $1;`, [id]);
+  return result.rowCount; // number of rows deleted
 }
 
 export { initDB, getAllTasks, getTaskById, createTask, updateTask, deleteTask };
