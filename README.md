@@ -53,6 +53,7 @@ Node.js, Express.js, PostgreSQL, Docker Compose, OpenAPI 3.0
 
 ## Project Structure
 
+```text
 ├── app.js
 ├── db.js
 ├── Dockerfile
@@ -61,6 +62,7 @@ Node.js, Express.js, PostgreSQL, Docker Compose, OpenAPI 3.0
 ├── package.json
 ├── .env.example
 └── README.md
+```
 
 ---
 
@@ -72,10 +74,12 @@ Node.js, Express.js, PostgreSQL, Docker Compose, OpenAPI 3.0
 
 ## Running the Project
 
-`git clone <repo>`
-`cd <repo>`
-`cp .env.example .env`
-`docker compose up`
+```bash
+git clone <repo>
+cd <repo>
+cp .env.example .env
+docker compose up
+```
 
 ---
 
@@ -91,21 +95,36 @@ Node.js, Express.js, PostgreSQL, Docker Compose, OpenAPI 3.0
 
 ## Example cURL Commands
 
-`curl -i -X POST http://localhost:3000/tasks -H "Content-Type: application/json" -d '{"title": "Compose Test 1"}'`
-`curl http://localhost:3000/tasks`
-`curl http://localhost:3000/tasks/1`
-`curl -i -X PUT http://localhost:3000/tasks/1 -H "Content-Type: application/json" -d '{"done": true}'`
-`curl -i -X DELETE http://localhost:3000/tasks/1`
+```bash
+curl -i -X POST http://localhost:3000/tasks -H "Content-Type: application/json" -d '{"title": "Compose Test 1"}'
+```
+
+```bash
+curl http://localhost:3000/tasks
+```
+
+```bash
+curl http://localhost:3000/tasks/1
+```
+
+```bash
+curl -i -X PUT http://localhost:3000/tasks/1 -H "Content-Type: application/json" -d '{"done": true}'
+```
+
+```bash
+curl -i -X DELETE http://localhost:3000/tasks/1
+```
 
 ---
 
 ## Clean Clone Test
 
-`git clone`
-`cp .env.example .env`
-`docker compose up`
-`curl http://localhost:3000/tasks`
-``
+```bash
+git clone <repository-url>
+cp .env.example .env
+docker compose up
+curl http://localhost:3000/tasks
+```
 
 ---
 
