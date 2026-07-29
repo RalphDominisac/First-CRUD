@@ -1,3 +1,5 @@
+//Double checked the checkpoint from stage 2 via Git Bash, expected results we're met.
+
 // db.js
 import pkg from "pg";
 import dotenv from "dotenv";
