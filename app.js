@@ -1,36 +1,30 @@
-// app.js (minimal edits: error handlers + declared dbHandle)
-process.on("uncaughtException", (err) => {
-  console.error("UNCAUGHT EXCEPTION", err && err.stack ? err.stack : err);
-  process.exit(1);
-});
+import express from "express";
+import dotenv from "dotenv";
 
-process.on("unhandledRejection", (reason) => {
-  console.error(
-    "UNHANDLED REJECTION",
-    reason && reason.stack ? reason.stack : reason,
-  );
-  process.exit(1);
-});
+// Node 24+ JSON import fix
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 
-const express = require("express");
+const swaggerUi = require("swagger-ui-express");
+const openapi = require("./openapi.json");
+
+import {
+  initDB,
+  getAllTasks,
+  getTaskById,
+  createTask,
+  updateTask,
+  deleteTask,
+} from "./db.js";
+
+dotenv.config();
+
 const app = express();
 const port = 3000;
 
-// Enables JSON body parsing
 app.use(express.json());
 
-const initDB = require("./db");
-let dbHandle = null; // <--- declare this so assignment won't throw
-
-function normalizeTask(task) {
-  return {
-    id: task.id,
-    title: task.title,
-    done: task.done === 1, // convert 0/1 → true/false
-  };
-}
-
-// Root endpoint - API metadata
+// Root endpoint
 app.get("/", (req, res) => {
   res.json({
     name: "Task API",
@@ -39,41 +33,41 @@ app.get("/", (req, res) => {
   });
 });
 
-// Health check endpoint
+// Health check
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-// GET /tasks - Return all tasks
+// GET /tasks
 app.get("/tasks", async (req, res) => {
   try {
-    const rows = await dbHandle.all("SELECT * FROM tasks");
-    res.json(rows.map(normalizeTask));
+    const tasks = await getAllTasks();
+    res.json(tasks);
   } catch (err) {
     console.error("GET /tasks error:", err);
     res.status(500).json({ error: "Failed to fetch tasks" });
   }
 });
 
-// GET /tasks/:id - Return one task by ID
+// GET /tasks/:id
 app.get("/tasks/:id", async (req, res) => {
   const id = Number(req.params.id);
 
   try {
-    const task = await dbHandle.get("SELECT * FROM tasks WHERE id = ?", id);
+    const task = await getTaskById(id);
 
     if (!task) {
       return res.status(404).json({ error: `Task ${id} not found` });
     }
 
-    res.json(normalizeTask(task));
+    res.json(task);
   } catch (err) {
     console.error("GET /tasks/:id error:", err);
     res.status(500).json({ error: "Failed to fetch task" });
   }
 });
 
-// POST /tasks - Create a new task
+// POST /tasks
 app.post("/tasks", async (req, res) => {
   const { title } = req.body;
 
@@ -82,25 +76,15 @@ app.post("/tasks", async (req, res) => {
   }
 
   try {
-    const result = await dbHandle.run(
-      "INSERT INTO tasks (title, done) VALUES (?, ?)",
-      title.trim(),
-      0,
-    );
-
-    const newTask = await dbHandle.get(
-      "SELECT * FROM tasks WHERE id = ?",
-      result.lastID,
-    );
-
-    res.status(201).json(normalizeTask(newTask));
+    const newTask = await createTask(title.trim());
+    res.status(201).json(newTask);
   } catch (err) {
     console.error("POST /tasks error:", err);
     res.status(500).json({ error: "Failed to create task" });
   }
 });
 
-// PUT /tasks/:id - Update a task
+// PUT /tasks/:id
 app.put("/tasks/:id", async (req, res) => {
   const id = Number(req.params.id);
   const { title, done } = req.body;
@@ -118,43 +102,29 @@ app.put("/tasks/:id", async (req, res) => {
   }
 
   try {
-    const existing = await dbHandle.get("SELECT * FROM tasks WHERE id = ?", id);
+    const updated = await updateTask(id, title, done);
 
-    if (!existing) {
+    if (!updated) {
       return res.status(404).json({ error: `Task ${id} not found` });
     }
 
-    const newTitle = title !== undefined ? title.trim() : existing.title;
-    const newDone = done !== undefined ? (done ? 1 : 0) : existing.done;
-
-    await dbHandle.run(
-      "UPDATE tasks SET title = ?, done = ? WHERE id = ?",
-      newTitle,
-      newDone,
-      id,
-    );
-
-    const updated = await dbHandle.get("SELECT * FROM tasks WHERE id = ?", id);
-
-    res.json(normalizeTask(updated));
+    res.json(updated);
   } catch (err) {
     console.error("PUT /tasks/:id error:", err);
     res.status(500).json({ error: "Failed to update task" });
   }
 });
 
-// DELETE /tasks/:id - Delete a task
+// DELETE /tasks/:id
 app.delete("/tasks/:id", async (req, res) => {
   const id = Number(req.params.id);
 
   try {
-    const existing = await dbHandle.get("SELECT * FROM tasks WHERE id = ?", id);
+    const deleted = await deleteTask(id);
 
-    if (!existing) {
+    if (!deleted) {
       return res.status(404).json({ error: `Task ${id} not found` });
     }
-
-    await dbHandle.run("DELETE FROM tasks WHERE id = ?", id);
 
     res.status(204).send();
   } catch (err) {
@@ -163,25 +133,18 @@ app.delete("/tasks/:id", async (req, res) => {
   }
 });
 
-// Swagger (keep as-is)
-const swaggerUi = require("swagger-ui-express");
-const openapi = require("./openapi.json");
-
+// Swagger
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(openapi));
 
-// Initialize DB then start server
+// Start server after DB init
 initDB()
-  .then((database) => {
-    dbHandle = database;
-    console.log("Database initialized (tasks.db should exist now).");
+  .then(() => {
+    console.log("Database ready.");
     app.listen(port, () => {
       console.log(`Task API listening on port ${port}`);
     });
   })
   .catch((err) => {
-    console.error(
-      "Failed to initialize database:",
-      err && err.stack ? err.stack : err,
-    );
+    console.error("Failed to initialize database:", err);
     process.exit(1);
   });

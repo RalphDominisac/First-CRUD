@@ -1,41 +1,68 @@
 // db.js
-const sqlite3 = require("sqlite3").verbose();
-const { open } = require("sqlite");
+import pkg from "pg";
+import dotenv from "dotenv";
 
+dotenv.config();
+
+const { Pool } = pkg;
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
+// Create table + seed on startup
 async function initDB() {
-  console.log("initDB: opening tasks.db");
-  const db = await open({
-    filename: "tasks.db",
-    driver: sqlite3.Database,
-  });
-
-  console.log("initDB: creating table if not exists");
-  await db.exec(`
+  await pool.query(`
     CREATE TABLE IF NOT EXISTS tasks (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       title TEXT NOT NULL,
-      done INTEGER NOT NULL DEFAULT 0
+      done BOOLEAN NOT NULL DEFAULT false
     );
   `);
 
-  console.log("initDB: checking row count");
-  const row = await db.get("SELECT COUNT(*) AS count FROM tasks");
-  console.log("initDB: current count =", row.count);
+  const result = await pool.query(`SELECT COUNT(*) FROM tasks;`);
+  const count = Number(result.rows[0].count);
 
-  if (row.count === 0) {
-    console.log("initDB: seeding initial tasks");
-    await db.exec(`
-      INSERT INTO tasks (title, done) VALUES
-        ('Learn Express', 0),
-        ('Build CRUD API', 0),
-        ('Write documentation', 1);
+  if (count === 0) {
+    await pool.query(`
+      INSERT INTO tasks (title, done)
+      VALUES
+        ('Learn Express', false),
+        ('Build CRUD API', false),
+        ('Write documentation', true);
     `);
-    console.log("initDB: seed complete");
-  } else {
-    console.log("initDB: seed skipped");
   }
-
-  return db;
 }
 
-module.exports = initDB;
+// CRUD functions
+async function getAllTasks() {
+  const result = await pool.query(`SELECT * FROM tasks ORDER BY id;`);
+  return result.rows;
+}
+
+async function getTaskById(id) {
+  const result = await pool.query(`SELECT * FROM tasks WHERE id = $1;`, [id]);
+  return result.rows[0];
+}
+
+async function createTask(title) {
+  const result = await pool.query(
+    `INSERT INTO tasks (title, done) VALUES ($1, $2) RETURNING *;`,
+    [title, false],
+  );
+  return result.rows[0];
+}
+
+async function updateTask(id, title, done) {
+  const result = await pool.query(
+    `UPDATE tasks SET title = $1, done = $2 WHERE id = $3 RETURNING *;`,
+    [title, done, id],
+  );
+  return result.rows[0];
+}
+
+async function deleteTask(id) {
+  await pool.query(`DELETE FROM tasks WHERE id = $1;`, [id]);
+}
+
+export { initDB, getAllTasks, getTaskById, createTask, updateTask, deleteTask };
