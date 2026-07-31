@@ -22,7 +22,7 @@ A clean, fully‑documented CRUD API for managing tasks, built with Node.js, Exp
 - [API Endpoints](#api-endpoints)
 - [Example cURL Commands](#example-curl-commands)
 - [Persistence Across Restarts](#persistence-across-restarts)
-- [Result: Persistence Confirmed](#result:-persistence-confirmed)
+- [Persistence Confirmed](#persistence-confirmed)
 - [Clean Clone Test](#clean-clone-test)
 - [Roadmap](#roadmap)
 - [Author](#author)
@@ -165,11 +165,15 @@ docker compose up
 curl http://localhost:3000/tasks
 ```
 
-### Result: Persistence Confirmed
+---
+
+### Persistence Confirmed
 
 ![Persistence Walkthrough](docs/images/persistence-walkthrough.gif)
 
 The task remained in the database even after a full shutdown and restart of both containers. This proves that the Docker volume `(taskdata)` is correctly mounted and PostgreSQL is storing data persistently at `/var/lib/postgresql`
+
+---
 
 ## Clean Clone Test
 
