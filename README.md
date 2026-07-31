@@ -21,6 +21,8 @@ A clean, fully‑documented CRUD API for managing tasks, built with Node.js, Exp
 - [Running the Project](#running-the-project)
 - [API Endpoints](#api-endpoints)
 - [Example cURL Commands](#example-curl-commands)
+- [Persistence Across Restarts](#persistence-across-restarts)
+- [Result: Persistence Confirmed](#result:-persistence-confirmed)
 - [Clean Clone Test](#clean-clone-test)
 - [Roadmap](#roadmap)
 - [Author](#author)
@@ -124,6 +126,50 @@ curl -i -X DELETE http://localhost:3000/tasks/1
 ```
 
 ---
+
+## Persistence Across Restarts
+
+This project uses a Docker volume to ensure that PostgreSQL data survives container restarts. To verify persistence, the following steps were performed:
+
+### 1. Start the full stack
+
+```bash
+docker compose up
+```
+
+### 2. Create a new task
+
+```bash
+curl -i -X POST http://localhost:3000/tasks \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Compose Test 2"}'
+
+
+```
+
+### 3. Shut down the stack
+
+```bash
+docker compose down
+```
+
+### 4. Start the stack again
+
+```bash
+docker compose up
+```
+
+### 5. Confirm the task still exists
+
+```bash
+curl http://localhost:3000/tasks
+```
+
+### Result: Persistence Confirmed
+
+![Persistence Walkthrough](docs/images/persistence-walkthrough.gif)
+
+The task remained in the database even after a full shutdown and restart of both containers. This proves that the Docker volume `(taskdata)` is correctly mounted and PostgreSQL is storing data persistently at `/var/lib/postgresql`
 
 ## Clean Clone Test
 
